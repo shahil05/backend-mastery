@@ -1,16 +1,20 @@
 const express = require('express');
 const app = express();
+
 const PORT = 3000;
 
-app.get('/', (req, res) => {
-    res.send('home route working');
+// Middleware
+app.use((req, res, next) => {
+    console.log(`Incoming request: ${req.method} ${req.url}`);
+    next();
 });
-app.get('/about', (req, res) => {
-    res.send("this is my backend jounrey")
-});
-app.get('/hello', (req,res) => {
-    res.send('hello sahil')
-});
+
+// Import routes
+const userRoutes = require('./routes/userRoutes');
+
+// Use routes
+app.use('/', userRoutes);
+
 app.listen(PORT, () => {
-    console.log(`server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });
